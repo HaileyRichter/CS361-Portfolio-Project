@@ -30,3 +30,5 @@ for t in range(0,nTimes,int(nTimes/100)):
     plt.ylabel('displacement in the y direction')
     plt.ylim([y.min(),y.max()])
     plt.pause(0.01)
+
+print("Here is the wave equation for this wave: PRINT SOMETHING LATER")

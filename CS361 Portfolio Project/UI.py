@@ -3,12 +3,20 @@ import subprocess
 from subprocess import call
 import numpy as np
 import matplotlib.pyplot as plt
+import time
+
+# start the backlog running in the background
+subprocess.run(["make"])
 
 # welcome message and example
 subprocess.run(["python", "welcome.py"])
 subprocess.run(["python", "standing.py"])
-print("Here is the wave equation for this wave: PRINT SOMETHING LATER")
-# here would be the print of the wave equation I think will have to be a microservice
+with open('storage_pipeline.txt', 'w', encoding="utf-8") as f:
+    f.write("add_entry")
+    time.sleep(2)
+    f.write("standing\ndefault"+ "\nend_file")
+f.closed
+
 print("To go the home menu, type home in the terminal window at any of the questions. To exit the program, go home and then type exit.")
 
 # ask if they want to make another simulation
@@ -18,6 +26,7 @@ while(flag == True):
     if prompt == 'yes':
         with open('home.txt', 'w', encoding="utf-8") as f:
             f.write('')
+            f.closed
         subprocess.run(["python", "wave_type.py"])
         with open('home.txt', 'r', encoding="utf-8") as f:
             read_data = f.read()
