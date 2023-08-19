@@ -5,9 +5,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-# start the backlog running in the background
-subprocess.run(["make"])
-
 # welcome message and example
 subprocess.run(["python", "welcome.py"])
 subprocess.run(["python", "standing.py"])
@@ -22,21 +19,44 @@ print("To go the home menu, type home in the terminal window at any of the quest
 # ask if they want to make another simulation
 flag = True # continue playing
 while(flag == True):
-    prompt = input("Would you like to try another?(yes or no)\n")
-    if prompt == 'yes':
+    prompt = input("Would you like to try another wave or take a quiz about wave types?(another, previous, quiz or neither)\n")
+    if prompt == 'another':
         with open('home.txt', 'w', encoding="utf-8") as f:
             f.write('')
             f.closed
         subprocess.run(["python", "wave_type.py"])
-        with open('home.txt', 'r', encoding="utf-8") as f:
-            read_data = f.read()
-            if read_data == '':
-                subprocess.run(["python", "standing.py"]) #NEED TO CHANGE SOME DAY
-                print("Here is the wave equation for this wave: PRINT SOMETHING LATER")
-            f.closed
-    elif prompt == 'no':
+    elif prompt == 'neither':
         prompt = input("If you want to exit this program, please type exit.\n")
         if prompt == 'exit':
+            with open('storage.txt', 'w', encoding="utf-8") as f:
+                f.write('')
+            f.closed
+            with open('storage_pipeline.txt', 'w', encoding="utf-8") as f:
+                f.write('')
+            f.closed
+            with open('wave_info.txt', 'w', encoding="utf-8") as f:
+                f.write('')
+            f.closed
+            with open('home.txt', 'w', encoding="utf-8") as f:
+                f.write('')
+            f.closed
+            with open('exit.txt', 'w', encoding="utf-8") as f:
+                f.write('')
+            f.closed
             flag = False
+    elif prompt == 'quiz':
+        subprocess.run(["python", "quiz.py"])
+
+    elif prompt == 'previous':
+        with open('storage_pipeline.txt', 'w', encoding="utf-8") as f:
+            f.write('view_last_entry')
+        f.closed
+
+        subprocess.run(["python", "backlog_interface.py"])
+
+        with open('storage_pipeline.txt', 'w', encoding="utf-8") as f:
+            f.write('')
+        f.closed
+
     else:
         print("Sorry, that was not an expected response. Please try again.")
